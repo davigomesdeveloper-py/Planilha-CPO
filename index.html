@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <!-- GUIA: este viewport deixa o site responsivo no celular -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lista de pulseiras</title>
+
+  <!-- GUIA: segunda fonte do site (a primeira é a Arial, que já vem no computador/celular) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- GUIA: arquivo de estilos (visual) -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="pagina">
+
+    <!-- GUIA: COLUNA DA ESQUERDA - título, números e formulário de cadastro -->
+    <aside class="lateral">
+
+      <header class="cabecalho">
+        <!-- GUIA: o texto do título vem do config.js (EVENTO_NOME) -->
+        <h1 id="titulo-evento">Lista de pulseiras</h1>
+        <p class="cabecalho__texto">
+          Cadastre quem vai ao evento e acompanhe quem já pagou a pulseira.
+        </p>
+      </header>
+
+      <!-- GUIA: três números que se atualizam sozinhos (feito no app.js) -->
+      <section class="resumo" aria-label="Resumo da lista">
+        <div class="resumo__item">
+          <span class="resumo__numero" id="total-pessoas">0</span>
+          <span class="resumo__legenda">na lista</span>
+        </div>
+        <div class="resumo__item">
+          <span class="resumo__numero" id="total-pagos">0</span>
+          <span class="resumo__legenda">pagaram</span>
+        </div>
+        <div class="resumo__item">
+          <span class="resumo__numero" id="total-pendentes">0</span>
+          <span class="resumo__legenda">faltam pagar</span>
+        </div>
+      </section>
+
+      <!-- GUIA: formulário para adicionar uma pessoa. O envio é tratado no app.js -->
+      <form class="formulario" id="form-convidado">
+        <h2 class="formulario__titulo">Adicionar pessoa</h2>
+
+        <label class="campo" for="campo-nome">
+          <span class="campo__rotulo">Nome completo</span>
+          <input
+            class="campo__entrada"
+            type="text"
+            id="campo-nome"
+            name="nome"
+            placeholder="Ex.: Maria da Silva"
+            autocomplete="off"
+            required
+          >
+        </label>
+
+        <label class="campo" for="campo-pagamento">
+          <span class="campo__rotulo">Pagamento</span>
+          <select class="campo__entrada" id="campo-pagamento" name="pagamento">
+            <option value="false">Ainda não pagou</option>
+            <option value="true">Já pagou</option>
+          </select>
+        </label>
+
+        <button class="botao botao--principal" type="submit">Adicionar à lista</button>
+      </form>
+
+      <!-- GUIA: mensagens de sucesso ou erro aparecem aqui -->
+      <p class="aviso" id="aviso" role="status" aria-live="polite"></p>
+
+    </aside>
+
+    <!-- GUIA: COLUNA DA DIREITA - busca, filtros e a tabela -->
+    <main class="conteudo">
+
+      <section class="ferramentas" aria-label="Busca e filtros">
+        <label class="busca" for="campo-busca">
+          <span class="busca__rotulo">Buscar nome</span>
+          <input
+            class="campo__entrada"
+            type="search"
+            id="campo-busca"
+            placeholder="Digite parte do nome"
+            autocomplete="off"
+          >
+        </label>
+
+        <!-- GUIA: botões de filtro. O atributo data-filtro é lido no app.js -->
+        <div class="filtros" role="group" aria-label="Filtrar por pagamento">
+          <button class="filtro filtro--ativo" type="button" data-filtro="todos" aria-pressed="true">Todos</button>
+          <button class="filtro" type="button" data-filtro="pagos" aria-pressed="false">Pagos</button>
+          <button class="filtro" type="button" data-filtro="pendentes" aria-pressed="false">Pendentes</button>
+        </div>
+      </section>
+
+      <!-- GUIA: esta div permite rolar a tabela de lado em telas muito pequenas -->
+      <div class="tabela-area">
+        <table class="tabela">
+          <caption class="so-leitor-de-tela">Lista de pessoas e situação do pagamento</caption>
+          <thead>
+            <tr>
+              <th scope="col" class="col-numero">Nº</th>
+              <th scope="col">Nome completo</th>
+              <th scope="col" class="col-status">Pagamento</th>
+              <th scope="col" class="col-acoes">Ações</th>
+            </tr>
+          </thead>
+          <!-- GUIA: as linhas são criadas pelo JavaScript (função desenharTabela) -->
+          <tbody id="corpo-tabela"></tbody>
+        </table>
+      </div>
+
+      <!-- GUIA: mensagem mostrada quando não há ninguém para exibir -->
+      <p class="vazio" id="mensagem-vazia" hidden>Nenhuma pessoa encontrada.</p>
+
+    </main>
+  </div>
+
+  <!-- GUIA: biblioteca oficial do Supabase (vem da internet, versão fixa) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+  <!-- GUIA: ORDEM IMPORTANTE - o config.js precisa vir antes do app.js -->
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

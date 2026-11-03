@@ -1,0 +1,449 @@
+/* ==========================================================
+   GUIA DO ARQUIVO
+   1. Cores e fontes (variáveis)
+   2. Base da página
+   3. Coluna da esquerda (título, resumo, formulário)
+   4. Coluna da direita (busca, filtros, tabela)
+   5. Celular e telas pequenas
+   Para mudar as cores do site, edite só a parte 1.
+   ========================================================== */
+
+
+/* ---------- 1. CORES E FONTES ---------- */
+:root {
+  /* Azuis do tema */
+  --azul-escuro: #0b1f4b;
+  --azul-principal: #1f5eff;
+  --azul-claro: #e8f0ff;
+  --azul-linha: #d5e1f7;
+
+  /* Neutros */
+  --branco: #ffffff;
+  --texto: #14213d;
+  --texto-suave: #55627f;
+
+  /* Cores do status de pagamento */
+  --pago-fundo: #dcf5e6;
+  --pago-texto: #14633a;
+  --pendente-fundo: #fff1c9;
+  --pendente-texto: #7a5200;
+
+  /* Fontes: Arial nos textos, Space Grotesk nos títulos e números */
+  --fonte-texto: Arial, Helvetica, sans-serif;
+  --fonte-titulo: "Space Grotesk", Arial, sans-serif;
+
+  /* Detalhes */
+  --raio: 8px;
+}
+
+
+/* ---------- 2. BASE DA PÁGINA ---------- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--fonte-texto);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--texto);
+  background-color: var(--branco);
+  /* Grade azul bem clara no fundo, dá o ar tecnológico */
+  background-image:
+    linear-gradient(var(--azul-claro) 1px, transparent 1px),
+    linear-gradient(90deg, var(--azul-claro) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Layout em duas colunas: lateral fixa + conteúdo flexível */
+.pagina {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  min-height: 100vh;
+}
+
+/* Texto escondido da tela, mas lido por leitores de tela */
+.so-leitor-de-tela {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+
+/* ---------- 3. COLUNA DA ESQUERDA ---------- */
+.lateral {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 40px 32px;
+  background-color: var(--azul-escuro);
+  color: var(--branco);
+  /* Fica parada enquanto a tabela rola */
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.cabecalho h1 {
+  margin: 0 0 8px;
+  font-family: var(--fonte-titulo);
+  font-size: 2rem;
+  line-height: 1.1;
+  font-weight: 700;
+}
+
+.cabecalho__texto {
+  margin: 0;
+  color: #b9c8ef;
+  font-size: 0.95rem;
+}
+
+/* Números do resumo */
+.resumo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.resumo__item {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  border: 1px solid #2c4585;
+  border-radius: var(--raio);
+}
+
+.resumo__numero {
+  font-family: var(--fonte-titulo);
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.resumo__legenda {
+  font-size: 0.78rem;
+  color: #b9c8ef;
+}
+
+/* Formulário */
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  border-radius: var(--raio);
+  background-color: var(--branco);
+  color: var(--texto);
+}
+
+.formulario__titulo {
+  margin: 0;
+  font-family: var(--fonte-titulo);
+  font-size: 1.15rem;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.campo__rotulo {
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+/* Vale para todos os campos (nome, select, busca) */
+.campo__entrada {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid var(--azul-linha);
+  border-radius: var(--raio);
+  font-family: var(--fonte-texto);
+  font-size: 1rem;
+  color: var(--texto);
+  background-color: var(--branco);
+}
+
+.campo__entrada:focus {
+  outline: 3px solid var(--azul-principal);
+  outline-offset: 1px;
+  border-color: var(--azul-principal);
+}
+
+/* Botões */
+.botao {
+  padding: 12px 16px;
+  border: none;
+  border-radius: var(--raio);
+  font-family: var(--fonte-texto);
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.botao--principal {
+  background-color: var(--azul-principal);
+  color: var(--branco);
+}
+
+.botao--principal:hover {
+  background-color: #1648cc;
+}
+
+.botao:focus-visible {
+  outline: 3px solid var(--azul-escuro);
+  outline-offset: 2px;
+}
+
+.botao:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* Mensagem de sucesso/erro */
+.aviso {
+  margin: 0;
+  min-height: 1.5em;
+  font-size: 0.92rem;
+  color: #b9c8ef;
+}
+
+.aviso--erro {
+  color: #ffb4b4;
+}
+
+
+/* ---------- 4. COLUNA DA DIREITA ---------- */
+.conteudo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 40px 40px 60px;
+  min-width: 0;
+}
+
+/* Busca e filtros lado a lado */
+.ferramentas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.busca {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1 1 260px;
+  max-width: 380px;
+}
+
+.busca__rotulo {
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.filtros {
+  display: flex;
+  gap: 8px;
+}
+
+.filtro {
+  padding: 11px 16px;
+  border: 1px solid var(--azul-linha);
+  border-radius: var(--raio);
+  background-color: var(--branco);
+  font-family: var(--fonte-texto);
+  font-size: 0.95rem;
+  color: var(--texto);
+  cursor: pointer;
+}
+
+.filtro:hover {
+  border-color: var(--azul-principal);
+}
+
+.filtro--ativo {
+  background-color: var(--azul-principal);
+  border-color: var(--azul-principal);
+  color: var(--branco);
+  font-weight: bold;
+}
+
+.filtro:focus-visible {
+  outline: 3px solid var(--azul-escuro);
+  outline-offset: 2px;
+}
+
+/* Tabela no estilo da planilha de referência */
+.tabela-area {
+  overflow-x: auto;
+  border: 1px solid var(--azul-linha);
+  border-radius: var(--raio);
+  background-color: var(--branco);
+}
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Cabeçalho escuro, como na planilha de exemplo */
+.tabela thead th {
+  padding: 12px 14px;
+  background-color: var(--azul-escuro);
+  color: var(--branco);
+  font-family: var(--fonte-titulo);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.tabela tbody td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--azul-linha);
+  vertical-align: middle;
+}
+
+/* Linhas alternadas (listradas) */
+.tabela tbody tr:nth-child(even) {
+  background-color: #f4f8ff;
+}
+
+.tabela tbody tr:hover {
+  background-color: var(--azul-claro);
+}
+
+.col-numero {
+  width: 64px;
+  color: var(--texto-suave);
+}
+
+.col-status {
+  width: 160px;
+}
+
+.col-acoes {
+  width: 280px;
+}
+
+/* Etiqueta colorida de pagamento */
+.etiqueta {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.etiqueta--pago {
+  background-color: var(--pago-fundo);
+  color: var(--pago-texto);
+}
+
+.etiqueta--pendente {
+  background-color: var(--pendente-fundo);
+  color: var(--pendente-texto);
+}
+
+/* Botões pequenos dentro da tabela */
+.acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.acao {
+  padding: 6px 12px;
+  border: 1px solid var(--azul-principal);
+  border-radius: var(--raio);
+  background-color: var(--branco);
+  font-family: var(--fonte-texto);
+  font-size: 0.85rem;
+  color: var(--azul-principal);
+  cursor: pointer;
+}
+
+.acao:hover {
+  background-color: var(--azul-claro);
+}
+
+.acao--remover {
+  border-color: #c9d2e6;
+  color: var(--texto-suave);
+}
+
+.acao:focus-visible {
+  outline: 3px solid var(--azul-escuro);
+  outline-offset: 2px;
+}
+
+.vazio {
+  margin: 0;
+  color: var(--texto-suave);
+}
+
+
+/* ---------- 5. CELULAR E TELAS PEQUENAS ---------- */
+
+/* Tablet: lateral fica em cima, tabela embaixo */
+@media (max-width: 900px) {
+  .pagina {
+    grid-template-columns: 1fr;
+  }
+
+  .lateral {
+    position: static;
+    height: auto;
+    padding: 28px 20px;
+  }
+
+  .conteudo {
+    padding: 24px 20px 48px;
+  }
+}
+
+/* Celular: cada linha da tabela vira um cartão */
+@media (max-width: 600px) {
+  .tabela thead {
+    display: none;
+  }
+
+  .tabela,
+  .tabela tbody,
+  .tabela tr,
+  .tabela td {
+    display: block;
+    width: 100%;
+  }
+
+  .tabela tbody tr {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--azul-linha);
+  }
+
+  .tabela tbody td {
+    padding: 4px 0;
+    border-bottom: none;
+  }
+
+  .col-numero {
+    width: 100%;
+    font-size: 0.8rem;
+  }
+
+  .filtros {
+    width: 100%;
+  }
+
+  .filtro {
+    flex: 1;
+  }
+}
