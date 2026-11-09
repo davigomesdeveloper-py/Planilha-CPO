@@ -35,6 +35,8 @@ const tituloEvento = document.getElementById("titulo-evento");
 const formulario = document.getElementById("form-convidado");
 const campoNome = document.getElementById("campo-nome");
 const campoPagamento = document.getElementById("campo-pagamento");
+const campoCamiseta = document.getElementById("campo-camisa");
+const campoTamanho = document.getElementById("campo-tamanho")
 const campoBusca = document.getElementById("campo-busca");
 const botoesFiltro = document.querySelectorAll(".filtro");
 const corpoTabela = document.getElementById("corpo-tabela");
@@ -75,10 +77,14 @@ async function carregarConvidados() {
 }
 
 // Adiciona uma pessoa nova
-async function adicionarConvidado(nome, pago) {
+async function adicionarConvidado(nome, pago, comprouCamisa, tamanho) {
   const { error } = await banco
     .from(TABELA)
-    .insert({ nome_completo: nome, pago: pago });
+    .insert({ nome_completo: nome, 
+      pago: pago, 
+      comprou_camisa: comprouCamisa, 
+      tamanho_camisa: tamanho
+    });
 
   if (error) {
     mostrarAviso("Não foi possível adicionar. Tente de novo.", true);
@@ -104,7 +110,6 @@ async function alterarPagamento(id, novoValor) {
 
   await carregarConvidados();
 }
-
 // Remove uma pessoa da lista (pede confirmação antes)
 async function removerConvidado(id, nome) {
   const confirmou = confirm("Remover " + nome + " da lista?");
@@ -177,6 +182,15 @@ function criarLinha(pessoa, posicao) {
   etiqueta.textContent = pessoa.pago ? "Pago" : "Pendente";
   colStatus.appendChild(etiqueta);
 
+  const colCamisa = document.createElement("td");
+  const etiquetaCamisa = document.createElement("span");
+  etiquetaCamisa.className = "etiqueta "+ (pessoa.comprou_camisa ? "etiqueta--pago" : "etiqueta--neutra");
+  etiquetaCamisa.textContent = pessoa.comprou_camisa ? "Comprou" : "Não comprou";
+  colCamisa.appendChild(etiquetaCamisa);
+
+  const colTamanho = document.createElement("td");
+  colTamanho.textContent = pessoa.tamanho_camisa || "-";
+
   // Coluna Ações (botão de pagamento + botão de remover)
   const colAcoes = document.createElement("td");
   const acoes = document.createElement("div");
@@ -202,7 +216,7 @@ function criarLinha(pessoa, posicao) {
   acoes.appendChild(botaoRemover);
   colAcoes.appendChild(acoes);
 
-  linha.append(colNumero, colNome, colStatus, colAcoes);
+  linha.append(colNumero, colNome, colStatus, colCamisa, colTamanho, colAcoes);
   return linha;
 }
 
@@ -241,6 +255,8 @@ formulario.addEventListener("submit", async function (evento) {
 
   const nome = campoNome.value.trim();
   const pago = campoPagamento.value === "true";
+  const comprouCamisa = campoCamiseta.value === "true";
+  const tamanho = comprouCamisa ? campoTamanho.value : null;
   const botao = formulario.querySelector("button[type='submit']");
 
   if (nome === "") {
@@ -248,13 +264,19 @@ formulario.addEventListener("submit", async function (evento) {
     return;
   }
 
+  if (comprouCamisa && tamanho === "") {
+    mostrarAviso("Escolha o tamanho da camisa.", true);
+    return;
+  }
+
   botao.disabled = true;
-  const deuCerto = await adicionarConvidado(nome, pago);
+  const deuCerto = await adicionarConvidado(nome, pago, comprouCamisa, tamanho);
   botao.disabled = false;
 
   if (deuCerto) {
     mostrarAviso(nome + " foi adicionado(a).", false);
     formulario.reset();
+    atualizarCampoTamanho();
     campoNome.focus();
     await carregarConvidados();
   }
@@ -262,6 +284,17 @@ formulario.addEventListener("submit", async function (evento) {
 
 // Digitar na busca atualiza a tabela na hora
 campoBusca.addEventListener("input", desenharTabela);
+
+function atualizarCampoTamanho() {
+  const comprou = campoCamiseta.value === "true";
+  campoTamanho.disabled = !comprou;
+
+  if (!comprou) {
+    campoTamanho.value = "";
+  }
+}
+
+campoCamiseta.addEventListener("change", atualizarCampoTamanho);
 
 // Clique nos botões de filtro
 botoesFiltro.forEach(function (botao) {

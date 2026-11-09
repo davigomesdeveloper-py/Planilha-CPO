@@ -70,6 +70,24 @@
           </select>
         </label>
 
+        <label class="campo" for="campo-camisa">
+          <span class="campo__rotulo">Camiseta</span>
+          <select class="campo__entrada" id="campo-camisa" name="camisa">
+            <option value="false">Não comprou</option>
+            <option value="true">Comprou </option>
+          </select>
+        </label>
+
+        <label class="campo" for="campo-tamanho">
+          <span class="campo__rotulo">Tamanho da camisa</span>
+          <select class="campo__entrada" id="campo-tamanho" name="tamanho" disabled>
+            <option value="">Selecione</option>
+            <option value="P">P</option>
+            <option value="M">M</option>
+            <option value="G">G</option>
+          </select>
+        </label>
+
         <button class="botao botao--principal" type="submit">Adicionar à lista</button>
       </form>
 
@@ -110,6 +128,8 @@
               <th scope="col" class="col-numero">Nº</th>
               <th scope="col">Nome completo</th>
               <th scope="col" class="col-status">Pagamento</th>
+              <th scope="col" class="col-camisa">Camisa</th>
+              <th scope="col" class="col-tamanho">Tamanho</th>
               <th scope="col" class="col-acoes">Ações</th>
             </tr>
           </thead>

@@ -334,6 +334,14 @@ body {
   width: 280px;
 }
 
+.col-camisa {
+  width: 140px;
+}
+
+.col-tamanho {
+  width: 100px;
+}
+
 /* Etiqueta colorida de pagamento */
 .etiqueta {
   display: inline-block;
@@ -351,6 +359,11 @@ body {
 .etiqueta--pendente {
   background-color: var(--pendente-fundo);
   color: var(--pendente-texto);
+}
+
+.etiqueta--neutra {
+  background-color: var(--azul-claro);
+  color: var(--texto-suave);
 }
 
 /* Botões pequenos dentro da tabela */
